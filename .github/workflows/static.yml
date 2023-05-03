@@ -35,6 +35,8 @@ jobs:
         uses: actions/configure-pages@v3
       - run: npm i
       - run: npm run build
+        env: REACT_APP_ADDRESS: ${{ variables.REACT_APP_ADDRESS }}
+        env: REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
