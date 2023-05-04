@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Web3 from "web3";
 
 function App() {
+  const address = process.env.REACT_APP_ADDRESS;
   const [balance, setBalance] = useState();
 
   const web3 = new Web3(
     new Web3.providers.HttpProvider(process.env.REACT_APP_API_URL)
   );
-  const address = process.env.REACT_APP_ADDRESS;
 
   const getBalance = () =>
     web3.eth.getBalance(address, (error, weiBalance) => {
@@ -21,6 +21,7 @@ function App() {
       console.log(`Balance for address ${address}: ${etherBalance} ETH`);
       setBalance(etherBalance);
     });
+  useEffect(() => getBalance);
 
   return (
     <div>
@@ -29,7 +30,6 @@ function App() {
       </header>
       <main>
         <p>address: {address}</p>
-        <button onClick={getBalance}>getBalance</button>
         <h2>Ethereum</h2>
         <p>{balance}</p>
         <h2>Polygon</h2>
