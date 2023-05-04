@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Web3 from "web3";
 
+const address = process.env.REACT_APP_ADDRESS;
 function App() {
-  const address = process.env.REACT_APP_ADDRESS;
   const [balance, setBalance] = useState();
 
   const web3 = new Web3(
