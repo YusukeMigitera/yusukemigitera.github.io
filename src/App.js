@@ -10,8 +10,8 @@ function App() {
     new Web3.providers.HttpProvider(process.env.REACT_APP_API_URL)
   );
 
-  const getBalance = () => {
-    const address = process.env.REACT_APP_ADDRESS;
+  const getBalance = async () => {
+    const address = await process.env.REACT_APP_ADDRESS;
     web3.eth.getBalance(address, (error, weiBalance) => {
       if (error) {
         console.error(`Error getting balance for address ${address}:`, error);
