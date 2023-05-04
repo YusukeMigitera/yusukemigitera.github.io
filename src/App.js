@@ -38,7 +38,6 @@ function App() {
         <p>address: {address}</p>
         <h2>Ethereum</h2>
         <p>{balance}</p>
-        <button onClick={getBalance}>getBalance</button>
         <h2>Polygon</h2>
         <p>0</p>
       </main>
