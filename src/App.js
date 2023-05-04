@@ -13,6 +13,7 @@ function App() {
   const getBalance = async () => {
     const address = await process.env.REACT_APP_ADDRESS;
     web3.eth.getBalance(address, (error, weiBalance) => {
+      console.log("getBalance");
       if (error) {
         console.error(`Error getting balance for address ${address}:`, error);
         return;
@@ -23,7 +24,10 @@ function App() {
       setBalance(etherBalance);
     });
   };
-  useEffect(() => getBalance);
+  useEffect(() => {
+    getBalance();
+    console.log("useEffect");
+  });
 
   return (
     <div>
@@ -34,6 +38,7 @@ function App() {
         <p>address: {address}</p>
         <h2>Ethereum</h2>
         <p>{balance}</p>
+        <button onClick={getBalance}>getBalance</button>
         <h2>Polygon</h2>
         <p>0</p>
       </main>
