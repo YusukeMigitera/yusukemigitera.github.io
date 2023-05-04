@@ -10,7 +10,8 @@ function App() {
     new Web3.providers.HttpProvider(process.env.REACT_APP_API_URL)
   );
 
-  const getBalance = () =>
+  const getBalance = () => {
+    const address = process.env.REACT_APP_ADDRESS;
     web3.eth.getBalance(address, (error, weiBalance) => {
       if (error) {
         console.error(`Error getting balance for address ${address}:`, error);
@@ -21,6 +22,7 @@ function App() {
       console.log(`Balance for address ${address}: ${etherBalance} ETH`);
       setBalance(etherBalance);
     });
+  };
   useEffect(() => getBalance);
 
   return (
