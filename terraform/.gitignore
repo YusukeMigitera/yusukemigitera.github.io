@@ -1,0 +1,8 @@
+# LocalStack
+**/volume/
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
