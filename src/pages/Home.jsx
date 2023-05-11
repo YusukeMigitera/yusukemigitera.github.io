@@ -16,8 +16,24 @@ export const Home = () => {
       <main>
         <h2>Social Media</h2>
         <ul>
-          <li>GitHub</li>
-          <li>Twitter</li>
+          <li>
+            <a
+              href="https://github.com/YusukeMigitera"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://twitter.com/YusukeMigitera"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Twitter
+            </a>
+          </li>
         </ul>
       </main>
       <footer>
