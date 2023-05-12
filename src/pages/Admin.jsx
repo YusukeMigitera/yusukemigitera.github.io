@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import PrivateRoute from "../components/PrivateRoute";
 import { useAuth } from "../hooks/use-auth";
+import { Connection, Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import * as bs58 from "bs58";
 
 const address = process.env.REACT_APP_ADDRESS;
 
@@ -10,6 +12,7 @@ export const Admin = () => {
   const auth = useAuth();
   const [ethBalance, setEthBalance] = useState();
   const [maticBalance, setMaticBalance] = useState();
+  const [solBalance, setSolBalance] = useState();
 
   const ethereumWeb3 = new Web3(
     new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_API)
@@ -23,7 +26,10 @@ export const Admin = () => {
     ethereumWeb3.eth.getBalance(address, (error, weiBalance) => {
       console.log("getEthBalance");
       if (error) {
-        console.error(`Error getting ether balance for address ${address}:`, error);
+        console.error(
+          `Error getting ether balance for address ${address}:`,
+          error
+        );
         return;
       }
 
@@ -36,7 +42,10 @@ export const Admin = () => {
     polygonWeb3.eth.getBalance(address, (error, weiBalance) => {
       console.log("getMaticBalance");
       if (error) {
-        console.error(`Error getting matic balance for address ${address}:`, error);
+        console.error(
+          `Error getting matic balance for address ${address}:`,
+          error
+        );
         return;
       }
 
@@ -45,9 +54,20 @@ export const Admin = () => {
     });
   };
 
+  const connection = new Connection(process.env.REACT_APP_SOLANA_API);
+  const feePayer = Keypair.fromSecretKey(
+    bs58.decode(process.env.REACT_APP_SOLANA_SECRET_KEY)
+  );
+  const getSolBalance = async () => {
+    let balance = await connection.getBalance(feePayer.publicKey);
+    console.log("getSolBalance");
+    setSolBalance(balance / LAMPORTS_PER_SOL);
+  };
+
   useEffect(() => {
     getEthBalance();
     getMaticBalance();
+    getSolBalance();
   });
 
   return (
@@ -64,6 +84,8 @@ export const Admin = () => {
         <p>{ethBalance}</p>
         <h3>Polygon</h3>
         <p>{maticBalance}</p>
+        <h3>Solana</h3>
+        <p>{solBalance}</p>
       </main>
       <footer>
         <Link to="/admin">Admin</Link>
