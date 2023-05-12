@@ -12,7 +12,7 @@ export const Admin = () => {
   const auth = useAuth();
   const [ethBalance, setEthBalance] = useState();
   const [maticBalance, setMaticBalance] = useState();
-  const [solBalance, setSolBalance] = useState();
+  // const [solBalance, setSolBalance] = useState();
 
   const ethereumWeb3 = new Web3(
     new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_API)
@@ -58,17 +58,16 @@ export const Admin = () => {
   // const feePayer = Keypair.fromSecretKey(
   //   bs58.decode(process.env.REACT_APP_SOLANA_SECRET_KEY)
   // );
-  const getSolBalance = async () => {
-    // let balance = await connection.getBalance(feePayer.publicKey);
-    console.log("getSolBalance");
-    // setSolBalance(balance / LAMPORTS_PER_SOL);
-    setSolBalance(3.7);
-  };
+  // const getSolBalance = async () => {
+  // let balance = await connection.getBalance(feePayer.publicKey);
+  // console.log("getSolBalance");
+  // setSolBalance(balance / LAMPORTS_PER_SOL);
+  // };
 
   useEffect(() => {
     getEthBalance();
     getMaticBalance();
-    getSolBalance();
+    // getSolBalance();
   });
 
   return (
@@ -85,8 +84,8 @@ export const Admin = () => {
         <p>{ethBalance}</p>
         <h3>Polygon</h3>
         <p>{maticBalance}</p>
-        <h3>Solana</h3>
-        <p>{solBalance}</p>
+        {/* <h3>Solana</h3>
+        <p>{solBalance}</p> */}
       </main>
       <footer>
         <Link to="/admin">Admin</Link>
