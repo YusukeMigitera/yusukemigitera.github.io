@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import PrivateRoute from "../components/PrivateRoute";
 import { useAuth } from "../hooks/use-auth";
-// import { Connection, Keypair } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 // import * as bs58 from "bs58";
 
 const address = process.env.REACT_APP_ADDRESS;
@@ -54,15 +54,14 @@ export const Admin = () => {
     });
   };
 
-  // const connection = new Connection(process.env.REACT_APP_SOLANA_API);
+  const connection = new Connection(process.env.REACT_APP_SOLANA_API);
   // const feePayer = Keypair.fromSecretKey(
   //   bs58.decode(process.env.REACT_APP_SOLANA_SECRET_KEY)
   // );
   const getSolBalance = async () => {
     // let balance = await connection.getBalance(feePayer.publicKey);
-    console.log("getSolBalance");
-    // setSolBalance(balance / LAMPORTS_PER_SOL);
-    setSolBalance(3.7);
+    console.log("getSolBalance, connection: ", connection);
+    setSolBalance(3.7 / LAMPORTS_PER_SOL);
   };
 
   useEffect(() => {
