@@ -1,6 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useAuth } from './hooks/use-auth';
 
 function App() {
+  const auth = useAuth();
+
+  if (auth.isLoading) {
+    return <div></div>;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
