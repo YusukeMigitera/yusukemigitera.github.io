@@ -33,24 +33,25 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - run: cd app
       - run: npm i
       - run: npm run build
         env: 
           GENERATE_SOURCEMAP: ${{ vars.GENERATE_SOURCEMAP }}
-          REACT_APP_ADDRESS: ${{ vars.REACT_APP_ADDRESS }}
-          REACT_APP_AUTH_COOKIE_STORAGE_DOMAIN: ${{ vars.REACT_APP_AUTH_COOKIE_STORAGE_DOMAIN }}
-          REACT_APP_ETHEREUM_API: ${{ secrets.REACT_APP_ETHEREUM_API }}
-          REACT_APP_POLYGON_API: ${{ secrets.REACT_APP_POLYGON_API }}
-          REACT_APP_SOLANA_API: ${{ secrets.REACT_APP_SOLANA_API }}
-          REACT_APP_SOLANA_SECRET_KEY: ${{ secrets.REACT_APP_SOLANA_SECRET_KEY }}
-          REACT_APP_AUTH_REGION: ${{ secrets.REACT_APP_AUTH_REGION }}
-          REACT_APP_AUTH_USER_POOL_ID: ${{ secrets.REACT_APP_AUTH_USER_POOL_ID }}
-          REACT_APP_AUTH_USER_POOL_WEB_CLIENT_ID: ${{ secrets.REACT_APP_AUTH_USER_POOL_WEB_CLIENT_ID }}
+          VITE_ADDRESS: ${{ vars.REACT_APP_ADDRESS }}
+          VITE_AUTH_COOKIE_STORAGE_DOMAIN: ${{ vars.REACT_APP_AUTH_COOKIE_STORAGE_DOMAIN }}
+          VITE_ETHEREUM_API: ${{ secrets.REACT_APP_ETHEREUM_API }}
+          VITE_POLYGON_API: ${{ secrets.REACT_APP_POLYGON_API }}
+          VITE_SOLANA_API: ${{ secrets.REACT_APP_SOLANA_API }}
+          VITE_SOLANA_SECRET_KEY: ${{ secrets.REACT_APP_SOLANA_SECRET_KEY }}
+          VITE_AUTH_REGION: ${{ secrets.REACT_APP_AUTH_REGION }}
+          VITE_AUTH_USER_POOL_ID: ${{ secrets.REACT_APP_AUTH_USER_POOL_ID }}
+          VITE_AUTH_USER_POOL_WEB_CLIENT_ID: ${{ secrets.REACT_APP_AUTH_USER_POOL_WEB_CLIENT_ID }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: 'build'
+          path: 'app/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
