@@ -33,9 +33,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - run: npm i
+      - uses: pnpm/action-setup@v2.2.2
+      - run: pnpm install
         working-directory: ./app
-      - run: npm run build
+      - run: pnpm run build
         env:
           GENERATE_SOURCEMAP: ${{ vars.GENERATE_SOURCEMAP }}
           VITE_ADDRESS: ${{ vars.REACT_APP_ADDRESS }}
