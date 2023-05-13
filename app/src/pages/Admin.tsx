@@ -6,23 +6,23 @@ import { useAuth } from "../hooks/use-auth";
 // import { Connection, Keypair } from "@solana/web3.js";
 // import * as bs58 from "bs58";
 
-const address = process.env.REACT_APP_ADDRESS;
+const address = import.meta.env.VITE_ADDRESS;
 
 export const Admin = () => {
   const auth = useAuth();
-  const [ethBalance, setEthBalance] = useState();
-  const [maticBalance, setMaticBalance] = useState();
+  const [ethBalance, setEthBalance] = useState<string>();
+  const [maticBalance, setMaticBalance] = useState<string>();
   // const [solBalance, setSolBalance] = useState();
 
   const ethereumWeb3 = new Web3(
-    new Web3.providers.HttpProvider(process.env.REACT_APP_ETHEREUM_API)
+    new Web3.providers.HttpProvider(import.meta.env.VITE_ETHEREUM_API || '')
   );
   const polygonWeb3 = new Web3(
-    new Web3.providers.HttpProvider(process.env.REACT_APP_POLYGON_API)
+    new Web3.providers.HttpProvider(import.meta.env.VITE_POLYGON_API || '')
   );
 
   const getEthBalance = async () => {
-    const address = await process.env.REACT_APP_ADDRESS;
+    const address = await import.meta.env.VITE_ADDRESS || '';
     ethereumWeb3.eth.getBalance(address, (error, weiBalance) => {
       console.log("getEthBalance");
       if (error) {
@@ -38,7 +38,7 @@ export const Admin = () => {
     });
   };
   const getMaticBalance = async () => {
-    const address = await process.env.REACT_APP_ADDRESS;
+    const address = await import.meta.env.VITE_ADDRESS || '';
     polygonWeb3.eth.getBalance(address, (error, weiBalance) => {
       console.log("getMaticBalance");
       if (error) {
@@ -54,9 +54,9 @@ export const Admin = () => {
     });
   };
 
-  // const connection = new Connection(process.env.REACT_APP_SOLANA_API);
+  // const connection = new Connection(process.env.VITE_SOLANA_API);
   // const feePayer = Keypair.fromSecretKey(
-  //   bs58.decode(process.env.REACT_APP_SOLANA_SECRET_KEY)
+  //   bs58.decode(process.env.VITE_SOLANA_SECRET_KEY)
   // );
   // const getSolBalance = async () => {
   // let balance = await connection.getBalance(feePayer.publicKey);
