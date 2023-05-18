@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import PrivateRoute from "../components/PrivateRoute";
 import { useAuth } from "../hooks/use-auth";
+import TokenTable, { Row } from "../components/TokenTable";
 // import { Connection, Keypair } from "@solana/web3.js";
 // import * as bs58 from "bs58";
 
@@ -15,14 +16,14 @@ export const Admin = () => {
   // const [solBalance, setSolBalance] = useState();
 
   const ethereumWeb3 = new Web3(
-    new Web3.providers.HttpProvider(import.meta.env.VITE_ETHEREUM_API || '')
+    new Web3.providers.HttpProvider(import.meta.env.VITE_ETHEREUM_API || "")
   );
   const polygonWeb3 = new Web3(
-    new Web3.providers.HttpProvider(import.meta.env.VITE_POLYGON_API || '')
+    new Web3.providers.HttpProvider(import.meta.env.VITE_POLYGON_API || "")
   );
 
   const getEthBalance = async () => {
-    const address = await import.meta.env.VITE_ADDRESS || '';
+    const address = (await import.meta.env.VITE_ADDRESS) || "";
     ethereumWeb3.eth.getBalance(address, (error, weiBalance) => {
       console.log("getEthBalance");
       if (error) {
@@ -38,7 +39,7 @@ export const Admin = () => {
     });
   };
   const getMaticBalance = async () => {
-    const address = await import.meta.env.VITE_ADDRESS || '';
+    const address = (await import.meta.env.VITE_ADDRESS) || "";
     polygonWeb3.eth.getBalance(address, (error, weiBalance) => {
       console.log("getMaticBalance");
       if (error) {
@@ -70,6 +71,34 @@ export const Admin = () => {
     // getSolBalance();
   });
 
+  const ethRow: Row = {
+    name: "ETH",
+    amount: Number(ethBalance || 0),
+    usd: 0,
+    jpy: 0,
+  };
+
+  const rethRow: Row = {
+    name: "rETH",
+    amount: 0,
+    usd: 0,
+    jpy: 0,
+  };
+
+  const maticRow: Row = {
+    name: "MATIC",
+    amount: Number(maticBalance || 0),
+    usd: 0,
+    jpy: 0,
+  };
+
+  const jpycRow: Row = {
+    name: "JPYC",
+    amount: 0,
+    usd: 0,
+    jpy: 0,
+  };
+
   return (
     <PrivateRoute>
       <header>
@@ -79,11 +108,12 @@ export const Admin = () => {
       </header>
       <main>
         <h2>Assets</h2>
-        <p>address: {address}</p>
         <h3>Ethereum</h3>
-        <p>{ethBalance}</p>
+        <p>address: {address}</p>
+        <TokenTable rows={[ethRow, rethRow]} />
         <h3>Polygon</h3>
-        <p>{maticBalance}</p>
+        <p>address: {address}</p>
+        <TokenTable rows={[maticRow, jpycRow]} />
         {/* <h3>Solana</h3>
         <p>{solBalance}</p> */}
       </main>
