@@ -1,16 +1,15 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import PrivateRoute from "../components/PrivateRoute";
-import { useAuth } from "../hooks/use-auth";
 import TokenTable, { Row } from "../components/TokenTable";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 // import { Connection, Keypair } from "@solana/web3.js";
 // import * as bs58 from "bs58";
 
 const address = import.meta.env.VITE_ADDRESS;
 
 export const Admin = () => {
-  const auth = useAuth();
   const [ethBalance, setEthBalance] = useState<string>();
   const [maticBalance, setMaticBalance] = useState<string>();
   // const [solBalance, setSolBalance] = useState();
@@ -101,11 +100,7 @@ export const Admin = () => {
 
   return (
     <PrivateRoute>
-      <header>
-        <h1>
-          <Link to="/">Yusuke Migitera</Link>
-        </h1>
-      </header>
+      <Header />
       <main>
         <h2>Assets</h2>
         <h3>Ethereum</h3>
@@ -117,12 +112,7 @@ export const Admin = () => {
         {/* <h3>Solana</h3>
         <p>{solBalance}</p> */}
       </main>
-      <footer>
-        <Link to="/admin">Admin</Link>
-        {auth.isAuthenticated && (
-          <button onClick={() => auth.signOut()}>ログアウト</button>
-        )}
-      </footer>
+      <Footer />
     </PrivateRoute>
   );
 };
