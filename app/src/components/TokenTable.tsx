@@ -10,7 +10,7 @@ import {
 
 export type Row = {
   name: string;
-  amount: number;
+  amount: string;
   usd: number;
   jpy: number;
 };

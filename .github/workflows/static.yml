@@ -50,6 +50,8 @@ jobs:
           VITE_AUTH_REGION: ${{ secrets.REACT_APP_AUTH_REGION }}
           VITE_AUTH_USER_POOL_ID: ${{ secrets.REACT_APP_AUTH_USER_POOL_ID }}
           VITE_AUTH_USER_POOL_WEB_CLIENT_ID: ${{ secrets.REACT_APP_AUTH_USER_POOL_WEB_CLIENT_ID }}
+          VITE_ETHERSCAN_API_KEY: ${{ secrets.VITE_ETHERSCAN_API_KEY }}
+          VITE_POLYGONSCAN_API_KEY: ${{ secrets.VITE_POLYGONSCAN_API_KEY }}
         working-directory: ./app
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
