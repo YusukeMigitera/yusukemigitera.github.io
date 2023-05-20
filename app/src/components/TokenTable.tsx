@@ -11,8 +11,8 @@ import {
 export type Row = {
   name: string;
   amount: string;
-  usd: number;
-  jpy: number;
+  usd: string;
+  jpy: string;
 };
 
 type TokenTableProps = {
