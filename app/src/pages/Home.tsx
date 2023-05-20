@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/use-auth";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const Home = () => {
   const auth = useAuth();
@@ -10,9 +11,7 @@ export const Home = () => {
 
   return (
     <>
-      <header>
-        <h1>Yusuke Migitera</h1>
-      </header>
+      <Header />
       <main>
         <h2>Social Media</h2>
         <ul>
@@ -36,12 +35,7 @@ export const Home = () => {
           </li>
         </ul>
       </main>
-      <footer>
-        <Link to="/admin">Admin</Link>
-        {auth.isAuthenticated && (
-          <button onClick={() => auth.signOut()}>ログアウト</button>
-        )}
-      </footer>
+      <Footer />
     </>
   );
 };

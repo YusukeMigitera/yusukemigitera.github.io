@@ -1,98 +1,64 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Web3 from "web3";
 import PrivateRoute from "../components/PrivateRoute";
-import { useAuth } from "../hooks/use-auth";
-// import { Connection, Keypair } from "@solana/web3.js";
-// import * as bs58 from "bs58";
-
-const address = import.meta.env.VITE_ADDRESS;
+import TokenTable, { Row } from "../components/TokenTable";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { useEtherScan, usePolygonScan } from "../hooks/useScan";
+import { useCoinGecko } from "../hooks/useCoinGecko";
 
 export const Admin = () => {
-  const auth = useAuth();
-  const [ethBalance, setEthBalance] = useState<string>();
-  const [maticBalance, setMaticBalance] = useState<string>();
-  // const [solBalance, setSolBalance] = useState();
+  const address = import.meta.env.VITE_ADDRESS;
+  const [ethBalance, rethBalance] = useEtherScan();
+  const [maticBalance, jpycBalance] = usePolygonScan();
+  const [usdEth, jpyEth, usdReth, jpyReth, usdMatic, jpyMatic] = useCoinGecko();
 
-  const ethereumWeb3 = new Web3(
-    new Web3.providers.HttpProvider(import.meta.env.VITE_ETHEREUM_API || '')
-  );
-  const polygonWeb3 = new Web3(
-    new Web3.providers.HttpProvider(import.meta.env.VITE_POLYGON_API || '')
-  );
-
-  const getEthBalance = async () => {
-    const address = await import.meta.env.VITE_ADDRESS || '';
-    ethereumWeb3.eth.getBalance(address, (error, weiBalance) => {
-      console.log("getEthBalance");
-      if (error) {
-        console.error(
-          `Error getting ether balance for address ${address}:`,
-          error
-        );
-        return;
-      }
-
-      const balance = ethereumWeb3.utils.fromWei(weiBalance, "ether");
-      setEthBalance(balance);
-    });
-  };
-  const getMaticBalance = async () => {
-    const address = await import.meta.env.VITE_ADDRESS || '';
-    polygonWeb3.eth.getBalance(address, (error, weiBalance) => {
-      console.log("getMaticBalance");
-      if (error) {
-        console.error(
-          `Error getting matic balance for address ${address}:`,
-          error
-        );
-        return;
-      }
-
-      const balance = polygonWeb3.utils.fromWei(weiBalance, "ether");
-      setMaticBalance(balance);
-    });
+  const ethRow: Row = {
+    name: "ETH",
+    amount: String(ethBalance),
+    usd: String(ethBalance * (usdEth ?? 1)),
+    jpy: String(ethBalance * (jpyEth ?? 1)),
   };
 
-  // const connection = new Connection(process.env.VITE_SOLANA_API);
-  // const feePayer = Keypair.fromSecretKey(
-  //   bs58.decode(process.env.VITE_SOLANA_SECRET_KEY)
-  // );
-  // const getSolBalance = async () => {
-  // let balance = await connection.getBalance(feePayer.publicKey);
-  // console.log("getSolBalance");
-  // setSolBalance(balance / LAMPORTS_PER_SOL);
-  // };
+  const rethRow: Row = {
+    name: "rETH",
+    amount: String(rethBalance),
+    usd: String(rethBalance * (usdReth ?? 1)),
+    jpy: String(rethBalance * (jpyReth ?? 1)),
+  };
 
-  useEffect(() => {
-    getEthBalance();
-    getMaticBalance();
-    // getSolBalance();
-  });
+  const maticRow: Row = {
+    name: "MATIC",
+    amount: String(maticBalance),
+    usd: String(maticBalance * (usdMatic ?? 1)),
+    jpy: String(maticBalance * (jpyMatic ?? 1)),
+  };
+
+  const jpycRow: Row = {
+    name: "JPYC",
+    amount: String(jpycBalance),
+    usd: "0",
+    jpy: "0",
+  };
 
   return (
     <PrivateRoute>
-      <header>
-        <h1>
-          <Link to="/">Yusuke Migitera</Link>
-        </h1>
-      </header>
+      <Header />
       <main>
         <h2>Assets</h2>
-        <p>address: {address}</p>
         <h3>Ethereum</h3>
-        <p>{ethBalance}</p>
+        <p>address: {address}</p>
+        <TokenTable rows={[ethRow, rethRow]} />
         <h3>Polygon</h3>
-        <p>{maticBalance}</p>
-        {/* <h3>Solana</h3>
-        <p>{solBalance}</p> */}
+        <p>address: {address}</p>
+        <TokenTable rows={[maticRow, jpycRow]} />
+        <h3>Total</h3>
+        <p>
+          ￥
+          {ethBalance * (jpyEth ?? 1) +
+            rethBalance * (jpyReth ?? 1) +
+            maticBalance * (jpyMatic ?? 1)}
+        </p>
       </main>
-      <footer>
-        <Link to="/admin">Admin</Link>
-        {auth.isAuthenticated && (
-          <button onClick={() => auth.signOut()}>ログアウト</button>
-        )}
-      </footer>
+      <Footer />
     </PrivateRoute>
   );
 };
