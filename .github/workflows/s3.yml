@@ -13,6 +13,8 @@ permissions:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -42,8 +44,8 @@ jobs:
       - name: Configure AWS credentials with IAM Role
         uses: aws-actions/configure-aws-credentials@main
         with:
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/${{env.AWS_ROLENAME}}
-          aws-region: ${{env.AWS_REGION}}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/${{vars.AWS_ROLENAME}}
+          aws-region: ${{vars.AWS_REGION}}
       - name: Copy files to S3
         run: |
-            aws s3 sync ./app/dist s3://${{env.AWS_S3_BUCKET}}
+            aws s3 sync ./app/dist s3://${{vars.AWS_S3_BUCKET}}
